@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>114年國軍年終獎金試算</title>
+    <!-- Tailwind CSS (用於快速排版) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Roboto+Mono:wght@500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #f1f5f9;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        /* 自訂捲軸樣式 */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+
+        /* 隱藏數字輸入框的箭頭 */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+
+        /* 動畫效果 */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="max-w-md mx-auto min-h-screen bg-white shadow-2xl overflow-hidden flex flex-col relative">
+        
+        <!-- 頂部標題區 -->
+        <div class="bg-slate-900 p-6 pt-8 text-white relative overflow-hidden flex-shrink-0">
+            <!-- 背景裝飾 -->
+            <div class="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10">
+                <div class="flex items-center gap-2 mb-3 opacity-90">
+                    <div class="p-1.5 bg-blue-600 rounded-lg">
+                        <!-- Calculator Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+                    </div>
+                    <span class="text-blue-300 font-bold tracking-wider text-xs uppercase">114 Year Bonus</span>
+                </div>
+                <h1 class="text-2xl font-bold mb-1">114年國軍年終獎金試算</h1>
+                <p class="text-slate-400 text-xs">依據國軍年終考績獎金金額表</p>
+            </div>
+        </div>
+
+        <!-- 切換模式按鈕 -->
+        <div class="flex border-b border-slate-200 bg-slate-50">
+            <button onclick="setMode('preset')" id="tab-preset" class="flex-1 py-4 text-sm font-bold text-blue-700 bg-white shadow-sm transition-all flex justify-center items-center gap-2 border-b-2 border-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                對照表查詢
+            </button>
+            <button onclick="setMode('custom')" id="tab-custom" class="flex-1 py-4 text-sm font-bold text-slate-500 hover:bg-slate-100 transition-all flex justify-center items-center gap-2 border-b-2 border-transparent">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                自訂輸入
+            </button>
+        </div>
+
+        <!-- 主要內容區 (可捲動) -->
+        <div class="flex-grow overflow-y-auto custom-scrollbar p-5 pb-32 space-y-6" id="main-content">
+            
+            <!-- 模式 A: 預設選單 -->
+            <div id="mode-preset" class="fade-in space-y-5">
+                <!-- 階級選擇 -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">選擇階級</label>
+                    <div class="relative">
+                        <select id="rank-select" onchange="handleRankChange()" class="w-full pl-4 pr-10 py-3.5 bg-slate-100 border border-slate-200 rounded-xl appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 font-bold text-lg">
+                            <optgroup label="軍官">
+                                <option value="31">上校</option>
+                                <option value="32">中校</option>
+                                <option value="33">少校</option>
+                                <option value="41">上尉</option>
+                                <option value="42">中尉</option>
+                                <option value="43">少尉</option>
+                            </optgroup>
+                            <optgroup label="士官">
+                                <option value="52">一等長</option>
+                                <option value="53">二等長</option>
+                                <option value="54">三等長</option>
+                                <option value="61">上士</option>
+                                <option value="62">中士</option>
+                                <option value="63">下士</option>
+                            </optgroup>
+                            <optgroup label="士兵">
+                                <option value="71">上兵</option>
+                                <option value="72">一兵</option>
+                                <option value="73">二兵</option>
+                            </optgroup>
+                        </select>
+                        <div class="absolute right-4 top-4 pointer-events-none text-slate-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 領導職切換 (動態顯示) -->
+                <div id="leader-toggle-container" class="space-y-2">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">職務性質</label>
+                    <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
+                        <button onclick="setLeader(true)" id="btn-leader-true" class="py-2.5 px-4 rounded-lg text-sm font-bold transition-all shadow-sm bg-white text-blue-700">領導職</button>
+                        <button onclick="setLeader(false)" id="btn-leader-false" class="py-2.5 px-4 rounded-lg text-sm font-bold transition-all text-slate-500">非領導職</button>
+                    </div>
+                </div>
+
+                <!-- 俸級選擇列表 -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-baseline px-1">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">俸級 (本俸)</label>
+                        <span id="level-count-badge" class="text-[10px] text-blue-600 font-bold bg-blue-100 px-2 py-0.5 rounded-full">共 12 級</span>
+                    </div>
+                    <div class="relative h-56 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+                        <div id="level-list" class="absolute inset-0 overflow-y-auto custom-scrollbar">
+                            <!-- JS 會填入這裡 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模式 B: 自訂輸入 -->
+            <div id="mode-custom" class="hidden fade-in space-y-4">
+                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-sm text-blue-800 mb-2 flex gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                    <span>請輸入薪資條上的金額進行計算</span>
+                </div>
+                
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">本俸</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-slate-400 font-mono">$</span>
+                        <input type="number" id="input-base" oninput="calculate()" class="w-full pl-8 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-mono font-bold text-slate-700 text-lg shadow-sm" placeholder="0">
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">專業加給</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-slate-400 font-mono">$</span>
+                        <input type="number" id="input-pro" oninput="calculate()" class="w-full pl-8 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-mono font-bold text-slate-700 text-lg shadow-sm" placeholder="0">
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">主管職務加給</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-slate-400 font-mono">$</span>
+                        <input type="number" id="input-sup" oninput="calculate()" class="w-full pl-8 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-mono font-bold text-slate-700 text-lg shadow-sm" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 考績設定 (通用) -->
+            <div class="space-y-2 pt-2 border-t border-slate-200">
+                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                    考績獎金設定
+                </label>
+                
+                <!-- 滿級數鎖定狀態 (由 JS 控制顯示) -->
+                <div id="perf-locked" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-3 text-amber-800">
+                    <div class="bg-amber-100 p-2 rounded-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                    <div>
+                        <div class="font-bold text-sm">已達滿級數</div>
+                        <div class="text-xs opacity-80">依規定考績獎金以 2.0 個月計算</div>
+                    </div>
+                </div>
+
+                <!-- 一般按鈕選擇 -->
+                <div id="perf-buttons" class="grid grid-cols-2 gap-3">
+                    <button onclick="setPerf(1.0)" id="btn-perf-1" class="p-2.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 shadow-sm transition-all flex flex-col items-center justify-center">
+                        <span class="font-bold text-sm">甲等</span>
+                        <span class="text-[10px] opacity-70">1.0 個月</span>
+                    </button>
+                    <button onclick="setPerf(0.5)" id="btn-perf-05" class="p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center">
+                        <span class="font-bold text-sm">乙上</span>
+                        <span class="text-[10px] opacity-70">0.5 個月</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 底部空白保留給固定結果欄 -->
+            <div class="h-4"></div>
+        </div>
+
+        <!-- 底部結果固定欄 -->
+        <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] z-50">
+            <!-- 小資訊列 -->
+            <div class="flex justify-between items-center px-6 py-2 bg-slate-50 text-[10px] text-slate-400 border-b border-slate-100">
+                <span id="calc-detail-text">本俸+專加+主加</span>
+                <span class="font-mono">月支: $<span id="res-monthly">0</span></span>
+            </div>
+
+            <div class="p-4 px-6 flex justify-between items-center">
+                <div>
+                    <div class="text-xs text-slate-500 font-bold mb-0.5">預估領取總額</div>
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-lg text-blue-600 font-bold">$</span>
+                        <span id="res-total" class="text-3xl font-bold text-slate-900 font-mono tracking-tight">0</span>
+                    </div>
+                </div>
+                <div class="text-right space-y-1">
+                    <div class="flex items-center justify-end gap-2 text-xs">
+                        <span class="text-slate-400">年終 (1.5)</span>
+                        <span id="res-year" class="font-mono font-bold text-slate-700">$0</span>
+                    </div>
+                    <div class="flex items-center justify-end gap-2 text-xs">
+                        <span class="text-slate-400" id="label-perf">考績 (1.0)</span>
+                        <span id="res-perf" class="font-mono font-bold text-amber-600">$0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript 邏輯 -->
+    <script>
+        // --- 1. 資料庫 ---
+        const ranksDB = {
+            '31': { name: '上校', pro: 34400, sup: 13510, hasLeader: true, levels: [41900, 43440, 44970, 46500, 48030, 49560, 51100, 52630, 54160, 55690, 57220, 58760] },
+            '32': { name: '中校', pro: 28980, sup: 8880, hasLeader: true, levels: [37310, 38460, 39610, 40760, 41900, 43050, 44200, 45350, 46500, 47650, 48800, 49950] },
+            '33': { name: '少校', pro: 24940, sup: 5930, hasLeader: true, levels: [32710, 33860, 35010, 36160, 37310, 38460, 39610, 40760, 41900, 43050, 44200, 45350] },
+            '41': { name: '上尉', pro: 23880, sup: 4870, hasLeader: true, levels: [28880, 30030, 31180, 32330, 33480, 34630, 35780, 36930, 38070, 39220, 40370, 41520] },
+            '42': { name: '中尉', pro: 21720, sup: 4320, hasLeader: true, levels: [25050, 25820, 26580, 27350, 28120, 28880, 29650, 30410, 31180, 31950] },
+            '43': { name: '少尉', pro: 20750, sup: 4120, hasLeader: true, levels: [22750, 23520, 24290, 25050, 25820, 26580, 27350, 28120, 28880, 29650] },
+            '52': { name: '一等長', pro: 24940, sup: 4310, hasLeader: true, levels: [28880, 29650, 30410, 31180, 31950, 32710, 33480, 34240, 35010, 35780, 36540, 37310, 38070, 38840, 39610, 40370, 41140, 41900, 42670, 43440] },
+            '53': { name: '二等長', pro: 23880, sup: 4310, hasLeader: true, levels: [25050, 25820, 26580, 27350, 28120, 28880, 29650, 30410, 31180, 31950, 32710, 33480, 34240, 35010, 35780, 36540, 37310, 38070, 38840, 39610] },
+            '54': { name: '三等長', pro: 21720, sup: 4310, hasLeader: true, levels: [22750, 23520, 24290, 25050, 25820, 26580, 27350, 28120, 28880, 29650, 30410, 31180, 31950, 32710, 33480, 34240, 35010, 35780, 36540, 37310] },
+            '61': { name: '上士', pro: 20480, sup: 3430, hasLeader: true, levels: [21220, 21990, 22750, 23520, 24290, 25050, 25820, 26580, 27350, 28120, 28880, 29650] },
+            '62': { name: '中士', pro: 20420, sup: 2910, hasLeader: true, levels: [17390, 18160, 18920, 19690, 20460, 21220, 21990, 22750, 23520, 24290, 25050, 25820] },
+            '63': { name: '下士', pro: 20340, sup: 2490, hasLeader: true, levels: [13380, 13920, 14460, 15000, 15540, 16090, 16630, 17390, 18160, 18920, 19690, 20460] },
+            '71': { name: '上兵', pro: 18310, sup: 0, hasLeader: false, levels: [12540, 13380, 13920, 14460, 15000, 15540] },
+            '72': { name: '一兵', pro: 17290, sup: 0, hasLeader: false, levels: [11710] },
+            '73': { name: '二兵', pro: 16280, sup: 0, hasLeader: false, levels: [10870] }
+        };
+
+        // --- 2. 狀態 State ---
+        let state = {
+            mode: 'preset', // 'preset' or 'custom'
+            rank: '31',
+            isLeader: true,
+            levelIndex: 0, // 0-based
+            perf: 1.0,
+            custom: { base: '', pro: '', sup: '' }
+        };
+
+        // --- 3. 初始化與事件 ---
+        function init() {
+            handleRankChange(false); // 初始渲染不重算
+            calculate();
+        }
+
+        function setMode(mode) {
+            state.mode = mode;
+            // Update Tab UI
+            const tabPreset = document.getElementById('tab-preset');
+            const tabCustom = document.getElementById('tab-custom');
+            const viewPreset = document.getElementById('mode-preset');
+            const viewCustom = document.getElementById('mode-custom');
+
+            if (mode === 'preset') {
+                tabPreset.className = "flex-1 py-4 text-sm font-bold text-blue-700 bg-white shadow-sm transition-all flex justify-center items-center gap-2 border-b-2 border-blue-600";
+                tabCustom.className = "flex-1 py-4 text-sm font-bold text-slate-500 hover:bg-slate-100 transition-all flex justify-center items-center gap-2 border-b-2 border-transparent";
+                viewPreset.classList.remove('hidden');
+                viewCustom.classList.add('hidden');
+            } else {
+                tabCustom.className = "flex-1 py-4 text-sm font-bold text-blue-700 bg-white shadow-sm transition-all flex justify-center items-center gap-2 border-b-2 border-blue-600";
+                tabPreset.className = "flex-1 py-4 text-sm font-bold text-slate-500 hover:bg-slate-100 transition-all flex justify-center items-center gap-2 border-b-2 border-transparent";
+                viewCustom.classList.remove('hidden');
+                viewPreset.classList.add('hidden');
+            }
+            calculate();
+        }
+
+        function handleRankChange(resetLevel = true) {
+            const rankSelect = document.getElementById('rank-select');
+            state.rank = rankSelect.value;
+            const info = ranksDB[state.rank];
+
+            // 1. 設定領導職按鈕
+            const leaderContainer = document.getElementById('leader-toggle-container');
+            if (info.hasLeader) {
+                leaderContainer.classList.remove('hidden');
+                setLeader(true, false); // 預設切回領導職, 不觸發重算以免重複
+            } else {
+                leaderContainer.classList.add('hidden');
+                setLeader(false, false);
+            }
+
+            // 2. 渲染俸級列表
+            if (resetLevel) state.levelIndex = 0;
+            renderLevelList(info);
+            
+            calculate();
+        }
+
+        function setLeader(isLeader, triggerCalc = true) {
+            state.isLeader = isLeader;
+            const btnTrue = document.getElementById('btn-leader-true');
+            const btnFalse = document.getElementById('btn-leader-false');
+
+            if (isLeader) {
+                btnTrue.className = "py-2.5 px-4 rounded-lg text-sm font-bold transition-all shadow-sm bg-white text-blue-700 border border-blue-100";
+                btnFalse.className = "py-2.5 px-4 rounded-lg text-sm font-bold transition-all text-slate-400 hover:text-slate-600";
+            } else {
+                btnFalse.className = "py-2.5 px-4 rounded-lg text-sm font-bold transition-all shadow-sm bg-slate-700 text-white border border-slate-600";
+                btnTrue.className = "py-2.5 px-4 rounded-lg text-sm font-bold transition-all text-slate-400 hover:text-slate-600";
+            }
+            if (triggerCalc) calculate();
+        }
+
+        function renderLevelList(info) {
+            const listContainer = document.getElementById('level-list');
+            const badge = document.getElementById('level-count-badge');
+            
+            badge.innerText = `共 ${info.levels.length} 級`;
+            listContainer.innerHTML = '';
+
+            info.levels.forEach((amount, index) => {
+                const btn = document.createElement('button');
+                const isMax = index === info.levels.length - 1;
+                const isSelected = state.levelIndex === index;
+
+                btn.onclick = () => { state.levelIndex = index; renderLevelList(info); calculate(); };
+                
+                // Tailwind classes string
+                let baseClass = "w-full px-4 py-3.5 flex justify-between items-center text-sm transition-all border-b border-slate-50 ";
+                if (isSelected) {
+                    baseClass += "bg-blue-50 text-blue-700 font-bold border-l-4 border-l-blue-600";
+                } else {
+                    baseClass += "text-slate-600 hover:bg-slate-50";
+                }
+                
+                btn.className = baseClass;
+                
+                let html = `<div class="flex items-center gap-2"><span>第 ${index + 1} 級</span>`;
+                if (isMax) {
+                    html += `<span class="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold">滿級數</span>`;
+                }
+                html += `</div><span class="font-mono">$${amount.toLocaleString()}</span>`;
+                
+                btn.innerHTML = html;
+                listContainer.appendChild(btn);
+            });
+        }
+
+        function setPerf(val) {
+            state.perf = val;
+            const btn1 = document.getElementById('btn-perf-1');
+            const btn05 = document.getElementById('btn-perf-05');
+
+            if (val === 1.0) {
+                btn1.className = "p-2.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 shadow-sm transition-all flex flex-col items-center justify-center ring-1 ring-blue-200";
+                btn05.className = "p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center";
+            } else {
+                btn1.className = "p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center";
+                btn05.className = "p-2.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 shadow-sm transition-all flex flex-col items-center justify-center ring-1 ring-blue-200";
+            }
+            calculate();
+        }
+
+        // --- 4. 核心計算與UI更新 ---
+        function calculate() {
+            let base = 0, pro = 0, sup = 0;
+            let multiplier = state.perf;
+            const info = ranksDB[state.rank];
+            const maxLevelIndex = info.levels.length - 1;
+            const isMax = state.levelIndex === maxLevelIndex;
+
+            // 1. 取得數值
+            if (state.mode === 'preset') {
+                base = info.levels[state.levelIndex];
+                pro = info.pro;
+                sup = (state.isLeader && info.hasLeader) ? info.sup : 0;
+
+                // 滿級數邏輯
+                const lockedUI = document.getElementById('perf-locked');
+                const btnUI = document.getElementById('perf-buttons');
+                
+                if (isMax) {
+                    multiplier = 2.0;
+                    lockedUI.classList.remove('hidden');
+                    btnUI.classList.add('hidden');
+                } else {
+                    lockedUI.classList.add('hidden');
+                    btnUI.classList.remove('hidden');
+                }
+
+            } else {
+                // 自訂模式
+                base = parseFloat(document.getElementById('input-base').value) || 0;
+                pro = parseFloat(document.getElementById('input-pro').value) || 0;
+                sup = parseFloat(document.getElementById('input-sup').value) || 0;
+                
+                // 自訂模式下隱藏滿級數鎖定，顯示一般按鈕
+                document.getElementById('perf-locked').classList.add('hidden');
+                document.getElementById('perf-buttons').classList.remove('hidden');
+            }
+
+            // 2. 計算
+            const monthly = base + pro + sup;
+            const yearBonus = Math.round(monthly * 1.5);
+            const perfBonus = Math.round(monthly * multiplier);
+            const total = yearBonus + perfBonus;
+
+            // 3. 更新 UI
+            document.getElementById('res-monthly').innerText = monthly.toLocaleString();
+            document.getElementById('res-total').innerText = total.toLocaleString();
+            document.getElementById('res-year').innerText = `$${yearBonus.toLocaleString()}`;
+            document.getElementById('res-perf').innerText = `$${perfBonus.toLocaleString()}`;
+            
+            // 更新考績標籤
+            let perfText = `考績 (${multiplier})`;
+            if (multiplier === 2.0) perfText = "考績 (2.0)";
+            document.getElementById('label-perf').innerText = perfText;
+        }
+
+        // 啟動
+        init();
+
+    </script>
+</body>
+</html>
+
