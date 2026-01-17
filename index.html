@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>114年國軍年終獎金試算</title>
-    <!-- Tailwind CSS (用於快速排版) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Roboto+Mono:wght@500;700&display=swap');
@@ -19,7 +18,6 @@
             font-family: 'Roboto Mono', monospace;
         }
 
-        /* 自訂捲軸樣式 */
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
         }
@@ -31,14 +29,12 @@
             border-radius: 20px;
         }
 
-        /* 隱藏數字輸入框的箭頭 */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
             margin: 0; 
         }
 
-        /* 動畫效果 */
         .fade-in {
             animation: fadeIn 0.3s ease-in-out;
         }
@@ -54,13 +50,11 @@
         
         <!-- 頂部標題區 -->
         <div class="bg-slate-900 p-6 pt-8 text-white relative overflow-hidden flex-shrink-0">
-            <!-- 背景裝飾 -->
             <div class="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none"></div>
             
             <div class="relative z-10">
                 <div class="flex items-center gap-2 mb-3 opacity-90">
                     <div class="p-1.5 bg-blue-600 rounded-lg">
-                        <!-- Calculator Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
                     </div>
                     <span class="text-blue-300 font-bold tracking-wider text-xs uppercase">114 Year Bonus</span>
@@ -82,12 +76,11 @@
             </button>
         </div>
 
-        <!-- 主要內容區 (可捲動) -->
+        <!-- 主要內容區 -->
         <div class="flex-grow overflow-y-auto custom-scrollbar p-5 pb-32 space-y-6" id="main-content">
             
             <!-- 模式 A: 預設選單 -->
             <div id="mode-preset" class="fade-in space-y-5">
-                <!-- 階級選擇 -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">選擇階級</label>
                     <div class="relative">
@@ -120,7 +113,6 @@
                     </div>
                 </div>
 
-                <!-- 領導職切換 (動態顯示) -->
                 <div id="leader-toggle-container" class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">職務性質</label>
                     <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
@@ -129,7 +121,6 @@
                     </div>
                 </div>
 
-                <!-- 俸級選擇列表 -->
                 <div class="space-y-2">
                     <div class="flex justify-between items-baseline px-1">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">俸級 (本俸)</label>
@@ -173,44 +164,24 @@
                 </div>
             </div>
 
-            <!-- 考績設定 (通用) -->
+            <!-- 考績設定 (動態按鈕區) -->
             <div class="space-y-2 pt-2 border-t border-slate-200">
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
                     考績獎金設定
                 </label>
                 
-                <!-- 滿級數鎖定狀態 (由 JS 控制顯示) -->
-                <div id="perf-locked" class="hidden bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center gap-3 text-amber-800">
-                    <div class="bg-amber-100 p-2 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    </div>
-                    <div>
-                        <div class="font-bold text-sm">已達滿級數</div>
-                        <div class="text-xs opacity-80">依規定考績獎金以 2.0 個月計算</div>
-                    </div>
-                </div>
-
-                <!-- 一般按鈕選擇 -->
-                <div id="perf-buttons" class="grid grid-cols-2 gap-3">
-                    <button onclick="setPerf(1.0)" id="btn-perf-1" class="p-2.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 shadow-sm transition-all flex flex-col items-center justify-center">
-                        <span class="font-bold text-sm">甲等</span>
-                        <span class="text-[10px] opacity-70">1.0 個月</span>
-                    </button>
-                    <button onclick="setPerf(0.5)" id="btn-perf-05" class="p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center">
-                        <span class="font-bold text-sm">乙上</span>
-                        <span class="text-[10px] opacity-70">0.5 個月</span>
-                    </button>
+                <!-- 按鈕容器，會由 JS 動態生成按鈕 -->
+                <div id="perf-buttons-container" class="grid grid-cols-2 gap-3">
+                    <!-- Javascript will inject buttons here -->
                 </div>
             </div>
-
-            <!-- 底部空白保留給固定結果欄 -->
+            
             <div class="h-4"></div>
         </div>
 
         <!-- 底部結果固定欄 -->
         <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] z-50">
-            <!-- 小資訊列 -->
             <div class="flex justify-between items-center px-6 py-2 bg-slate-50 text-[10px] text-slate-400 border-b border-slate-100">
                 <span id="calc-detail-text">本俸+專加+主加</span>
                 <span class="font-mono">月支: $<span id="res-monthly">0</span></span>
@@ -241,7 +212,7 @@
 
     <!-- JavaScript 邏輯 -->
     <script>
-        // --- 1. 資料庫 ---
+        // 資料庫
         const ranksDB = {
             '31': { name: '上校', pro: 34400, sup: 13510, hasLeader: true, levels: [41900, 43440, 44970, 46500, 48030, 49560, 51100, 52630, 54160, 55690, 57220, 58760] },
             '32': { name: '中校', pro: 28980, sup: 8880, hasLeader: true, levels: [37310, 38460, 39610, 40760, 41900, 43050, 44200, 45350, 46500, 47650, 48800, 49950] },
@@ -260,25 +231,22 @@
             '73': { name: '二兵', pro: 16280, sup: 0, hasLeader: false, levels: [10870] }
         };
 
-        // --- 2. 狀態 State ---
         let state = {
-            mode: 'preset', // 'preset' or 'custom'
+            mode: 'preset',
             rank: '31',
             isLeader: true,
-            levelIndex: 0, // 0-based
+            levelIndex: 0,
             perf: 1.0,
             custom: { base: '', pro: '', sup: '' }
         };
 
-        // --- 3. 初始化與事件 ---
         function init() {
-            handleRankChange(false); // 初始渲染不重算
+            handleRankChange(false);
             calculate();
         }
 
         function setMode(mode) {
             state.mode = mode;
-            // Update Tab UI
             const tabPreset = document.getElementById('tab-preset');
             const tabCustom = document.getElementById('tab-custom');
             const viewPreset = document.getElementById('mode-preset');
@@ -295,6 +263,7 @@
                 viewCustom.classList.remove('hidden');
                 viewPreset.classList.add('hidden');
             }
+            updatePerfUI();
             calculate();
         }
 
@@ -303,20 +272,22 @@
             state.rank = rankSelect.value;
             const info = ranksDB[state.rank];
 
-            // 1. 設定領導職按鈕
             const leaderContainer = document.getElementById('leader-toggle-container');
             if (info.hasLeader) {
                 leaderContainer.classList.remove('hidden');
-                setLeader(true, false); // 預設切回領導職, 不觸發重算以免重複
+                setLeader(true, false);
             } else {
                 leaderContainer.classList.add('hidden');
                 setLeader(false, false);
             }
 
-            // 2. 渲染俸級列表
-            if (resetLevel) state.levelIndex = 0;
-            renderLevelList(info);
+            if (resetLevel) {
+                state.levelIndex = 0;
+                state.perf = 1.0; 
+            }
             
+            renderLevelList(info);
+            updatePerfUI();
             calculate();
         }
 
@@ -341,15 +312,30 @@
             
             badge.innerText = `共 ${info.levels.length} 級`;
             listContainer.innerHTML = '';
+            
+            const excludeMaxBonus = ['72', '73'].includes(state.rank);
 
             info.levels.forEach((amount, index) => {
                 const btn = document.createElement('button');
                 const isMax = index === info.levels.length - 1;
                 const isSelected = state.levelIndex === index;
 
-                btn.onclick = () => { state.levelIndex = index; renderLevelList(info); calculate(); };
+                btn.onclick = () => { 
+                    state.levelIndex = index; 
+                    
+                    // 點擊滿級數時，自動切換到 2.0 (如果不排除)
+                    if (isMax && !excludeMaxBonus) {
+                        state.perf = 2.0;
+                    } else if (state.perf === 2.0) {
+                        // 如果從滿級數切換回來，重置為 1.0
+                        state.perf = 1.0;
+                    }
+
+                    renderLevelList(info); 
+                    updatePerfUI();
+                    calculate(); 
+                };
                 
-                // Tailwind classes string
                 let baseClass = "w-full px-4 py-3.5 flex justify-between items-center text-sm transition-all border-b border-slate-50 ";
                 if (isSelected) {
                     baseClass += "bg-blue-50 text-blue-700 font-bold border-l-4 border-l-blue-600";
@@ -360,7 +346,7 @@
                 btn.className = baseClass;
                 
                 let html = `<div class="flex items-center gap-2"><span>第 ${index + 1} 級</span>`;
-                if (isMax) {
+                if (isMax && !excludeMaxBonus) {
                     html += `<span class="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold">滿級數</span>`;
                 }
                 html += `</div><span class="font-mono">$${amount.toLocaleString()}</span>`;
@@ -372,80 +358,90 @@
 
         function setPerf(val) {
             state.perf = val;
-            const btn1 = document.getElementById('btn-perf-1');
-            const btn05 = document.getElementById('btn-perf-05');
-
-            if (val === 1.0) {
-                btn1.className = "p-2.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 shadow-sm transition-all flex flex-col items-center justify-center ring-1 ring-blue-200";
-                btn05.className = "p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center";
-            } else {
-                btn1.className = "p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center";
-                btn05.className = "p-2.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 shadow-sm transition-all flex flex-col items-center justify-center ring-1 ring-blue-200";
-            }
+            updatePerfUI();
             calculate();
         }
 
-        // --- 4. 核心計算與UI更新 ---
+        function updatePerfUI() {
+            const container = document.getElementById('perf-buttons-container');
+            const info = ranksDB[state.rank];
+            const isMax = state.levelIndex === info.levels.length - 1;
+            const excludeMaxBonus = ['72', '73'].includes(state.rank);
+            const isCustom = state.mode === 'custom';
+
+            let show20 = (isMax && !excludeMaxBonus && !isCustom);
+            
+            // 定義按鈕樣式
+            const activeClass = "p-2.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 shadow-sm transition-all flex flex-col items-center justify-center ring-1 ring-blue-200";
+            const inactiveClass = "p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center";
+            const activeAmberClass = "p-2.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-800 shadow-sm transition-all flex flex-col items-center justify-center ring-1 ring-amber-200";
+
+            let html = '';
+            
+            // 始終使用兩欄佈局
+            container.className = "grid grid-cols-2 gap-3"; 
+
+            if (show20) {
+                // 滿級數模式：顯示「滿級數 (2.0)」與「乙上 (0.5)」
+                html += `
+                <button onclick="setPerf(2.0)" class="${state.perf === 2.0 ? activeAmberClass : inactiveClass}">
+                    <span class="font-bold text-sm">滿級數</span>
+                    <span class="text-[10px] opacity-70">2.0 個月</span>
+                </button>
+                <button onclick="setPerf(0.5)" class="${state.perf === 0.5 ? activeClass : inactiveClass}">
+                    <span class="font-bold text-sm">乙上</span>
+                    <span class="text-[10px] opacity-70">0.5 個月</span>
+                </button>
+                `;
+            } else {
+                // 一般模式：顯示「甲等 (1.0)」與「乙上 (0.5)」
+                html += `
+                <button onclick="setPerf(1.0)" class="${state.perf === 1.0 ? activeClass : inactiveClass}">
+                    <span class="font-bold text-sm">甲等</span>
+                    <span class="text-[10px] opacity-70">1.0 個月</span>
+                </button>
+                <button onclick="setPerf(0.5)" class="${state.perf === 0.5 ? activeClass : inactiveClass}">
+                    <span class="font-bold text-sm">乙上</span>
+                    <span class="text-[10px] opacity-70">0.5 個月</span>
+                </button>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
         function calculate() {
             let base = 0, pro = 0, sup = 0;
             let multiplier = state.perf;
             const info = ranksDB[state.rank];
-            const maxLevelIndex = info.levels.length - 1;
-            const isMax = state.levelIndex === maxLevelIndex;
 
-            // 1. 取得數值
             if (state.mode === 'preset') {
                 base = info.levels[state.levelIndex];
                 pro = info.pro;
                 sup = (state.isLeader && info.hasLeader) ? info.sup : 0;
-
-                // 滿級數邏輯
-                const lockedUI = document.getElementById('perf-locked');
-                const btnUI = document.getElementById('perf-buttons');
-                
-                if (isMax) {
-                    multiplier = 2.0;
-                    lockedUI.classList.remove('hidden');
-                    btnUI.classList.add('hidden');
-                } else {
-                    lockedUI.classList.add('hidden');
-                    btnUI.classList.remove('hidden');
-                }
-
             } else {
-                // 自訂模式
                 base = parseFloat(document.getElementById('input-base').value) || 0;
                 pro = parseFloat(document.getElementById('input-pro').value) || 0;
                 sup = parseFloat(document.getElementById('input-sup').value) || 0;
-                
-                // 自訂模式下隱藏滿級數鎖定，顯示一般按鈕
-                document.getElementById('perf-locked').classList.add('hidden');
-                document.getElementById('perf-buttons').classList.remove('hidden');
             }
 
-            // 2. 計算
             const monthly = base + pro + sup;
             const yearBonus = Math.round(monthly * 1.5);
             const perfBonus = Math.round(monthly * multiplier);
             const total = yearBonus + perfBonus;
 
-            // 3. 更新 UI
             document.getElementById('res-monthly').innerText = monthly.toLocaleString();
             document.getElementById('res-total').innerText = total.toLocaleString();
             document.getElementById('res-year').innerText = `$${yearBonus.toLocaleString()}`;
             document.getElementById('res-perf').innerText = `$${perfBonus.toLocaleString()}`;
             
-            // 更新考績標籤
             let perfText = `考績 (${multiplier})`;
             if (multiplier === 2.0) perfText = "考績 (2.0)";
             document.getElementById('label-perf').innerText = perfText;
         }
 
-        // 啟動
         init();
-
     </script>
 </body>
 </html>
-
 
