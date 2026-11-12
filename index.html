@@ -1,238 +1,239 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>114年國軍年終獎金試算</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Roboto+Mono:wght@500;700&display=swap');
-        
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: #f1f5f9;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .font-mono {
-            font-family: 'Roboto Mono', monospace;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10243a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>114年國軍年終獎金試算</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&family=Roboto+Mono:wght@500;700&display=swap');
+:root{--navy:#10243a;--blue:#2563eb;--blue-soft:#eff6ff;--ink:#172334;--muted:#64748b;--line:#e2e8f0;--surface:#f5f7fb;--gold:#b7791f;--gold-soft:#fffbeb;--shadow:0 12px 34px rgba(15,35,60,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--surface);color:var(--ink);font-family:'Noto Sans TC',sans-serif;-webkit-tap-highlight-color:transparent}
+button,input,select{font:inherit}button{cursor:pointer}.mono{font-family:'Roboto Mono',monospace;font-variant-numeric:tabular-nums}
+.app{max-width:760px;min-height:100vh;margin:auto;background:#fff;box-shadow:0 0 50px #10243a0d;padding-bottom:300px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#10243a,#193d60);color:white;padding:28px 24px 25px}
+.hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-90px;top:-130px;background:#60a5fa20;filter:blur(3px)}
+.eyebrow{display:flex;align-items:center;gap:9px;color:#bfdbfe;font-size:12px;font-weight:800;letter-spacing:.12em}
+.eyebrow-mark{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:#2563eb;color:#fff}
+h1{position:relative;z-index:1;margin:14px 0 5px;font-size:clamp(22px,5vw,29px);letter-spacing:-.03em}
+.subtitle{position:relative;z-index:1;color:#cbd5e1;font-size:13px}
+.tabs{display:flex;position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);padding:0 20px}
+.tab{flex:1;min-height:58px;border:0;border-bottom:3px solid transparent;background:transparent;color:#64748b;font-weight:700;font-size:14px}
+.tab[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue)}
+main{padding:22px 22px 26px}.section{margin-bottom:24px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.section-title{font-size:13px;font-weight:800;color:#475569;letter-spacing:.03em}
+.helper{font-size:12px;color:#94a3b8}
+.field-label{display:block;margin:0 0 8px;color:#475569;font-size:13px;font-weight:700}
+select,.money-input{width:100%;min-height:52px;padding:0 15px;border:1px solid #dbe3ee;border-radius:13px;background:#f8fafc;color:var(--ink);font-size:16px;font-weight:700;outline:none;transition:.18s}
+select:focus,.money-input:focus{border-color:#60a5fa;box-shadow:0 0 0 4px #dbeafe}
+.segment{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;background:#f1f5f9;border-radius:13px}
+.segment button{min-height:43px;border:0;border-radius:9px;background:transparent;color:#64748b;font-size:14px;font-weight:700}
+.segment button.active{background:white;color:var(--blue);box-shadow:0 2px 8px #0f172a12}
+.level-panel{border:1px solid var(--line);border-radius:15px;overflow:hidden;background:#fff}
+.level-top{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border-bottom:1px solid var(--line);font-size:12px;color:#64748b}
+.level-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;max-height:270px;overflow:auto}
+.level-option{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:53px;padding:9px 12px;border:0;border-bottom:1px solid #f1f5f9;background:white;text-align:left;color:#475569;font-size:13px}
+.level-option:nth-child(odd){border-right:1px solid #f1f5f9}
+.level-option.selected{background:var(--blue-soft);color:#1d4ed8;box-shadow:inset 3px 0 #2563eb;font-weight:800}
+.level-option .amount{font-family:'Roboto Mono',monospace;font-size:12px;white-space:nowrap}
+.tag{padding:2px 5px;border-radius:5px;background:#fef3c7;color:#92400e;font-size:10px;font-weight:800}
+.notice{display:flex;gap:10px;align-items:flex-start;padding:13px 14px;border:1px solid #dbeafe;border-radius:13px;background:#eff6ff;color:#1e40af;font-size:13px;line-height:1.6}
+.money-grid{display:grid;gap:13px}.money-wrap{position:relative}.money-wrap:before{content:"$";position:absolute;left:15px;top:15px;color:#94a3b8;font-family:'Roboto Mono',monospace}.money-input{padding-left:34px;background:#fff;font-family:'Roboto Mono',monospace}
+.perf-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.perf-option{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:76px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#64748b}
+.perf-option strong{font-size:14px}.perf-option span{font-size:11px}
+.perf-option.active{border-color:#93c5fd;background:var(--blue-soft);color:#1d4ed8;box-shadow:inset 0 0 0 1px #bfdbfe}
+.perf-option.gold.active{border-color:#fcd34d;background:var(--gold-soft);color:#92400e;box-shadow:inset 0 0 0 1px #fde68a}
+.result-dock{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);padding:12px 20px calc(13px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -8px 30px #0f172a12}
+.monthly-line{display:flex;justify-content:space-between;gap:10px;padding:0 2px 9px;color:#64748b;font-size:11px}
+.result-main{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.total-label{font-size:12px;font-weight:700;color:#64748b}.total{display:flex;align-items:baseline;gap:4px;margin-top:2px;color:#0f172a}.total .currency{font-size:18px;color:var(--blue);font-weight:800}.total strong{font:700 clamp(27px,7vw,35px)/1.2 'Roboto Mono',monospace;letter-spacing:-.05em}
+.breakdown{display:grid;gap:7px;min-width:135px;font-size:11px}.breakdown-row{display:flex;justify-content:space-between;gap:10px;color:#64748b}.breakdown-row strong{font-family:'Roboto Mono',monospace;color:#334155}
+.schedule{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border-radius:10px;background:#f1f5ff;color:#334155;font-size:11px}
+.schedule strong{color:#3730a3}.schedule small{display:block;margin-top:2px;color:#64748b;font-size:10px}
+.actions{display:flex;gap:8px;margin-top:10px}.action{flex:1;min-height:39px;border:1px solid var(--line);border-radius:10px;background:#fff;color:#475569;font-size:12px;font-weight:700}.action.primary{border-color:#1d4ed8;background:#1d4ed8;color:white}
+.hidden{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 20px;
-        }
+.level-tools{display:flex;gap:7px;padding:10px;border-bottom:1px solid var(--line);background:#fff}
+.level-tools input{flex:1;min-width:0;height:38px;padding:0 11px;border:1px solid #dbe3ee;border-radius:9px;background:#f8fafc;font-size:12px;outline:none}
+.level-tools input:focus{border-color:#60a5fa;box-shadow:0 0 0 3px #dbeafe}
+.level-tools button{padding:0 11px;border:1px solid #dbe3ee;border-radius:9px;background:#fff;color:#475569;font-size:12px;font-weight:700}
+.level-tools button:active{background:var(--blue-soft);color:var(--blue)}
+.level-empty{padding:20px;text-align:center;color:#94a3b8;font-size:12px}
+.result-details{margin-top:10px;border-top:1px solid #edf0f5;padding-top:8px}
+.result-details summary{cursor:pointer;list-style:none;text-align:center;color:#64748b;font-size:11px;font-weight:700;padding:4px}
+.result-details summary::-webkit-details-marker{display:none}
+.result-details summary:after{content:"＋";margin-left:6px;color:#2563eb}
+.result-details[open] summary:after{content:"－"}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 2px 5px}
+.detail-grid>div{display:flex;justify-content:space-between;gap:8px;padding:8px 9px;border-radius:8px;background:#f8fafc;font-size:10px;color:#64748b}
+.detail-grid strong{color:#334155;font-family:'Roboto Mono',monospace;font-size:10px;text-align:right}
+.formula-note{margin:5px 2px 2px;color:#94a3b8;font-size:10px;line-height:1.5}
+@media(max-height:760px){.result-dock{max-height:58vh;overflow-y:auto}.app{padding-bottom:340px}}
 
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-        }
+@media(min-width:620px){main{padding:28px 30px}.level-list{grid-template-columns:repeat(3,minmax(0,1fr))}.level-option:nth-child(odd){border-right:0}.level-option:not(:nth-child(3n)){border-right:1px solid #f1f5f9}.result-dock{padding-left:30px;padding-right:30px}}
+@media(max-width:380px){main{padding:18px 15px}.hero{padding-left:18px;padding-right:18px}.result-dock{padding-left:14px;padding-right:14px}.breakdown{min-width:118px}.total strong{font-size:27px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
-        .fade-in {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+/* 新增功能：主題、比較、歷史與列印 */
+.feature-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 0}
+.tool-btn{border:1px solid var(--line);border-radius:11px;padding:10px 13px;background:var(--surface);color:var(--ink);font-size:13px;font-weight:700}
+.primary-tool{background:var(--blue);color:white;border-color:var(--blue)}
+.feature-panel{margin:16px 22px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--card,var(--surface))}
+.feature-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font-size:14px}
+.inline-tools{display:flex;gap:8px}
+.inline-tools input{min-width:0;flex:1;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--input-bg,#fff);color:var(--ink)}
+.saved-list{display:grid;gap:8px;margin-top:10px}
+.saved-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--input-bg,#fff);font-size:12px}
+.saved-item strong{display:block;font-size:13px;margin-bottom:3px}
+.saved-item small{color:var(--muted)}
+.item-actions{display:flex;gap:6px;flex-shrink:0}
+.item-actions button,.text-btn{border:0;background:transparent;color:var(--blue);font-size:12px;font-weight:700;padding:5px}
+.empty-note{margin:4px 0;color:var(--muted);font-size:12px}
+.compare-table-wrap{overflow-x:auto}
+.compare-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;white-space:nowrap}
+.compare-table th,.compare-table td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:right}
+.compare-table th:first-child,.compare-table td:first-child{text-align:left}
+.compare-table th{color:var(--muted);font-weight:700}
+.compare-table td:last-child{font-weight:800;color:var(--blue)}
+body.dark{--ink:#e5edf7;--muted:#9aabc0;--line:#33465d;--surface:#101a28;--card:#172638;--input-bg:#1d3045;--blue-soft:#1d3552;--gold-soft:#443719;background:#0b1420;color:var(--ink)}
+body.dark .app{background:#111e2d;box-shadow:none}
+body.dark .tabs{background:#152438}
+body.dark select,body.dark .money-input{background:#1d3045;color:var(--ink);border-color:var(--line)}
+body.dark .segment{background:#203247}
+body.dark .segment button.active{background:#30465e;color:#bfdbfe}
+body.dark .level-panel,body.dark .level-option{background:#1a2a3d;border-color:var(--line);color:var(--ink)}
+body.dark .level-option.selected{background:#203d5d;border-color:#60a5fa}
+body.dark .notice{background:#26354a;color:#d7e5f5}
+body.dark .result-dock{background:#152438;border-color:var(--line)}
+body.dark .feature-panel{background:#172638}
+body.dark .inline-tools input{background:#1d3045;color:var(--ink);border-color:var(--line)}
+@media print{
+  body{background:#fff!important;color:#111!important}
+  .app{max-width:none;box-shadow:none;padding:0;background:#fff!important}
+  .hero{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .tabs,.feature-toolbar,#compare-panel,#history-panel,.actions{display:none!important}
+  main{padding:12px 20px}
+  .result-dock{position:static!important;box-shadow:none!important;border:1px solid #ddd;break-inside:avoid}
+  .section,.feature-panel{break-inside:avoid}
+  body.dark{color:#111!important}
+}
+
+</style>
 </head>
-<body class="text-slate-800">
+<body>
+<div class="app">
+<header class="hero">
+  <div class="eyebrow"><span class="eyebrow-mark">▦</span> 114 YEAR BONUS CALCULATOR</div>
+  <h1>114年國軍年終獎金試算</h1>
+  <div class="subtitle">依據國軍年終考績獎金金額表｜快速估算應領金額</div>
+</header>
 
-    <div class="max-w-md mx-auto min-h-screen bg-white shadow-2xl overflow-hidden flex flex-col relative">
-        
-        <!-- 頂部標題區 -->
-        <div class="bg-slate-900 p-6 pt-8 text-white relative overflow-hidden flex-shrink-0">
-            <div class="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none"></div>
-            
-            <div class="relative z-10">
-                <div class="flex items-center gap-2 mb-3 opacity-90">
-                    <div class="p-1.5 bg-blue-600 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-                    </div>
-                    <span class="text-blue-300 font-bold tracking-wider text-xs uppercase">114 Year Bonus</span>
-                </div>
-                <h1 class="text-2xl font-bold mb-1">114年國軍年終獎金試算</h1>
-                <p class="text-slate-400 text-xs">依據國軍年終考績獎金金額表</p>
-            </div>
-        </div>
+<nav class="tabs" aria-label="試算方式">
+  <button class="tab" id="tab-preset" role="tab" aria-selected="true" aria-controls="mode-preset" onclick="setMode('preset')">對照表查詢</button>
+  <button class="tab" id="tab-custom" role="tab" aria-selected="false" aria-controls="mode-custom" onclick="setMode('custom')">自訂薪資輸入</button>
+</nav>
 
-        <!-- 切換模式按鈕 -->
-        <div class="flex border-b border-slate-200 bg-slate-50">
-            <button onclick="setMode('preset')" id="tab-preset" class="flex-1 py-4 text-sm font-bold text-blue-700 bg-white shadow-sm transition-all flex justify-center items-center gap-2 border-b-2 border-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                對照表查詢
-            </button>
-            <button onclick="setMode('custom')" id="tab-custom" class="flex-1 py-4 text-sm font-bold text-slate-500 hover:bg-slate-100 transition-all flex justify-center items-center gap-2 border-b-2 border-transparent">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                自訂輸入
-            </button>
-        </div>
+<main id="main-content">
 
-        <!-- 主要內容區 (padding-bottom 加大以避開底部固定欄) -->
-        <div class="flex-grow overflow-y-auto custom-scrollbar p-5 pb-80 space-y-6" id="main-content">
-            
-            <!-- 模式 A: 預設選單 -->
-            <div id="mode-preset" class="fade-in space-y-5">
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">選擇階級</label>
-                    <div class="relative">
-                        <select id="rank-select" onchange="handleRankChange()" class="w-full pl-4 pr-10 py-3.5 bg-slate-100 border border-slate-200 rounded-xl appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 font-bold text-lg">
-                            <optgroup label="軍官">
-                                <option value="31">上校</option>
-                                <option value="32">中校</option>
-                                <option value="33">少校</option>
-                                <option value="41">上尉</option>
-                                <option value="42">中尉</option>
-                                <option value="43">少尉</option>
-                            </optgroup>
-                            <optgroup label="士官">
-                                <option value="52">一等長</option>
-                                <option value="53">二等長</option>
-                                <option value="54">三等長</option>
-                                <option value="61">上士</option>
-                                <option value="62">中士</option>
-                                <option value="63">下士</option>
-                            </optgroup>
-                            <optgroup label="士兵">
-                                <option value="71">上兵</option>
-                                <option value="72">一兵</option>
-                                <option value="73">二兵</option>
-                            </optgroup>
-                        </select>
-                        <div class="absolute right-4 top-4 pointer-events-none text-slate-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                        </div>
-                    </div>
-                </div>
+<div class="feature-toolbar">
+  <button type="button" class="tool-btn" onclick="toggleTheme()" id="theme-toggle">🌙 深色模式</button>
+  <button type="button" class="tool-btn" onclick="saveHistory()">💾 保存紀錄</button>
+  <button type="button" class="tool-btn" onclick="exportPDF()">📄 匯出 PDF</button>
+</div>
+<section class="feature-panel" id="compare-panel">
+  <div class="feature-head"><strong>多人薪資試算與比較</strong><span class="helper">先設定一人的條件，再加入比較清單</span></div>
+  <div class="inline-tools">
+    <input id="compare-name" type="text" maxlength="20" placeholder="輸入姓名／代稱（選填）" aria-label="比較對象名稱">
+    <button type="button" class="tool-btn primary-tool" onclick="addComparison()">＋ 加入比較</button>
+  </div>
+  <div id="compare-list" class="saved-list"><p class="empty-note">尚未加入比較對象。</p></div>
+</section>
+<section class="feature-panel" id="history-panel">
+  <div class="feature-head"><strong>歷史試算紀錄</strong><button type="button" class="text-btn" onclick="clearHistory()">清除紀錄</button></div>
+  <div id="history-list" class="saved-list"><p class="empty-note">尚無保存紀錄。</p></div>
+</section>
+<section id="mode-preset">
+  <div class="section">
+    <label class="field-label" for="rank-select">1. 選擇階級</label>
+    <select id="rank-select" onchange="handleRankChange()">
+      <optgroup label="軍官"><option value="31">上校</option><option value="32">中校</option><option value="33">少校</option><option value="41">上尉</option><option value="42">中尉</option><option value="43">少尉</option></optgroup>
+      <optgroup label="士官"><option value="52">一等長</option><option value="53">二等長</option><option value="54">三等長</option><option value="61">上士</option><option value="62">中士</option><option value="63">下士</option></optgroup>
+      <optgroup label="士兵"><option value="71">上兵</option><option value="72">一兵</option><option value="73">二兵</option></optgroup>
+    </select>
+  </div>
 
-                <div id="leader-toggle-container" class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">職務性質</label>
-                    <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
-                        <button onclick="setLeader(true)" id="btn-leader-true" class="py-2.5 px-4 rounded-lg text-sm font-bold transition-all shadow-sm bg-white text-blue-700">領導職</button>
-                        <button onclick="setLeader(false)" id="btn-leader-false" class="py-2.5 px-4 rounded-lg text-sm font-bold transition-all text-slate-500">非領導職</button>
-                    </div>
-                </div>
-
-                <div class="space-y-2">
-                    <div class="flex justify-between items-baseline px-1">
-                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">俸級 (本俸)</label>
-                        <span id="level-count-badge" class="text-[10px] text-blue-600 font-bold bg-blue-100 px-2 py-0.5 rounded-full">共 12 級</span>
-                    </div>
-                    <div class="relative h-56 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                        <div id="level-list" class="absolute inset-0 overflow-y-auto custom-scrollbar">
-                            <!-- JS 會填入這裡 -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 模式 B: 自訂輸入 -->
-            <div id="mode-custom" class="hidden fade-in space-y-4">
-                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-sm text-blue-800 mb-2 flex gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
-                    <span>請輸入薪資條上的金額進行計算</span>
-                </div>
-                
-                <div class="space-y-1">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">本俸</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-3.5 text-slate-400 font-mono">$</span>
-                        <input type="number" id="input-base" oninput="calculate()" class="w-full pl-8 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-mono font-bold text-slate-700 text-lg shadow-sm" placeholder="0">
-                    </div>
-                </div>
-                <div class="space-y-1">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">專業加給</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-3.5 text-slate-400 font-mono">$</span>
-                        <input type="number" id="input-pro" oninput="calculate()" class="w-full pl-8 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-mono font-bold text-slate-700 text-lg shadow-sm" placeholder="0">
-                    </div>
-                </div>
-                <div class="space-y-1">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">主管職務加給</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-3.5 text-slate-400 font-mono">$</span>
-                        <input type="number" id="input-sup" oninput="calculate()" class="w-full pl-8 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-mono font-bold text-slate-700 text-lg shadow-sm" placeholder="0">
-                    </div>
-                </div>
-            </div>
-
-            <!-- 考績設定 (動態按鈕區) -->
-            <div class="space-y-2 pt-2 border-t border-slate-200">
-                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-                    考績獎金設定
-                </label>
-                
-                <!-- 按鈕容器，會由 JS 動態生成按鈕 -->
-                <div id="perf-buttons-container" class="grid grid-cols-2 gap-3">
-                    <!-- Javascript will inject buttons here -->
-                </div>
-            </div>
-            
-            <div class="h-4"></div>
-        </div>
-
-        <!-- 底部結果固定欄 (含發放日程) -->
-        <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] z-50">
-            <!-- 薪資明細列 -->
-            <div class="flex justify-between items-center px-6 py-2 bg-slate-50 text-[10px] text-slate-400 border-b border-slate-100">
-                <span id="calc-detail-text">本俸+專加+主加</span>
-                <span class="font-mono">月支: $<span id="res-monthly">0</span></span>
-            </div>
-
-            <!-- 總額與獎金區 -->
-            <div class="p-4 px-6 flex justify-between items-center">
-                <div>
-                    <div class="text-xs text-slate-500 font-bold mb-0.5">預估領取總額</div>
-                    <div class="flex items-baseline gap-1">
-                        <span class="text-lg text-blue-600 font-bold">$</span>
-                        <span id="res-total" class="text-3xl font-bold text-slate-900 font-mono tracking-tight">0</span>
-                    </div>
-                </div>
-                <div class="text-right space-y-1">
-                    <div class="flex items-center justify-end gap-2 text-xs">
-                        <span class="text-slate-400">年終 (1.5)</span>
-                        <span id="res-year" class="font-mono font-bold text-slate-700">$0</span>
-                    </div>
-                    <div class="flex items-center justify-end gap-2 text-xs">
-                        <span class="text-slate-400" id="label-perf">考績 (1.0)</span>
-                        <span id="res-perf" class="font-mono font-bold text-amber-600">$0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 發放日程區 (整合至底部) -->
-            <div class="bg-indigo-50 px-6 py-3 border-t border-indigo-100">
-                <div class="flex items-center gap-1.5 mb-2">
-                    <span class="bg-indigo-600 w-1 h-3 rounded-full"></span>
-                    <span class="text-[10px] font-bold text-indigo-900 uppercase tracking-wider">發放日程 (預計)</span>
-                </div>
-                <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-[10px] font-medium text-slate-600">
-                    <div class="col-span-2 flex justify-between items-center bg-amber-50 px-2 py-1.5 rounded border border-amber-100 ring-1 ring-amber-200/50">
-                        <span class="text-amber-800 font-bold">★ 年終考績獎金</span>
-                        <span class="font-bold text-amber-700">115/2/6</span>
-                    </div>
-                    <div class="col-span-2 text-right text-[9px] text-slate-400 mt-0.5">
-                        *農曆春節前10日 (2/6) 發放年終暨考績
-                    </div>
-                </div>
-            </div>
-        </div>
-
+  <div class="section" id="leader-toggle-container">
+    <div class="section-head"><span class="field-label" style="margin:0">2. 職務性質</span><span class="helper">依是否支領主管職務加給選擇</span></div>
+    <div class="segment">
+      <button type="button" id="btn-leader-true" class="active" onclick="setLeader(true)">領導職</button>
+      <button type="button" id="btn-leader-false" onclick="setLeader(false)">非領導職</button>
     </div>
+  </div>
 
-    <!-- JavaScript 邏輯 -->
-    <script>
-        // 資料庫
-        const ranksDB = {
+  <div class="section">
+    <div class="section-head"><span class="field-label" style="margin:0">3. 選擇俸級（本俸）</span><span class="helper" id="level-count-badge">共 0 級</span></div>
+    <div class="level-panel">
+      <div class="level-top"><span>點選你的俸級金額</span><span id="level-visible-count">顯示全部</span></div>
+      <div class="level-tools">
+        <input id="level-search" type="search" placeholder="搜尋俸級或金額，例如：第 3 級、22750" aria-label="搜尋俸級或金額" oninput="renderLevelList(ranksDB[state.rank])">
+        <button type="button" onclick="selectEdgeLevel('first')" title="選擇最低俸級">最低</button>
+        <button type="button" onclick="selectEdgeLevel('last')" title="選擇最高俸級">最高</button>
+      </div>
+      <div id="level-list" class="level-list" aria-label="俸級列表"></div>
+      <p id="level-empty" class="level-empty hidden">找不到符合的俸級，請換個關鍵字。</p>
+    </div>
+  </div>
+</section>
+
+<section id="mode-custom" class="hidden">
+  <div class="notice"><span aria-hidden="true">ⓘ</span><span>請依薪資條輸入每月金額；欄位可留空，系統會以 0 元計算。</span></div>
+  <div class="money-grid" style="margin-top:18px">
+    <div><label class="field-label" for="input-base">本俸</label><div class="money-wrap"><input class="money-input" type="number" min="0" step="1" inputmode="numeric" id="input-base" placeholder="請輸入本俸" oninput="calculate()"></div></div>
+    <div><label class="field-label" for="input-pro">專業加給</label><div class="money-wrap"><input class="money-input" type="number" min="0" step="1" inputmode="numeric" id="input-pro" placeholder="請輸入專業加給" oninput="calculate()"></div></div>
+    <div><label class="field-label" for="input-sup">主管職務加給</label><div class="money-wrap"><input class="money-input" type="number" min="0" step="1" inputmode="numeric" id="input-sup" placeholder="沒有此項可填 0" oninput="calculate()"></div></div>
+  </div>
+</section>
+
+<div class="section">
+  <div class="section-head"><span class="field-label" style="margin:0">4. 考績獎金設定</span><span class="helper">選擇適用的考績月數</span></div>
+  <div id="perf-buttons-container" class="perf-grid"></div>
+</div>
+</main>
+
+<footer class="result-dock" aria-live="polite">
+  <div class="monthly-line"><span id="calc-detail-text">本俸＋專加＋主加</span><span>月支：$<strong id="res-monthly" class="mono">0</strong></span></div>
+  <div class="result-main">
+    <div><div class="total-label">預估領取總額</div><div class="total"><span class="currency">$</span><strong id="res-total">0</strong></div></div>
+    <div class="breakdown">
+      <div class="breakdown-row"><span>年終（1.5）</span><strong id="res-year">$0</strong></div>
+      <div class="breakdown-row"><span id="label-perf">考績（1.0）</span><strong id="res-perf">$0</strong></div>
+    </div>
+  </div>
+  <div class="schedule"><div><strong>預計發放日程</strong><small>年終暨考績獎金｜農曆春節前 10 日</small></div><strong>115/2/6</strong></div>
+  <details class="result-details">
+    <summary>查看計算明細與公式</summary>
+    <div class="detail-grid">
+      <div><span>本俸</span><strong id="detail-base">$0</strong></div>
+      <div><span>專業加給</span><strong id="detail-pro">$0</strong></div>
+      <div><span>主管職務加給</span><strong id="detail-sup">$0</strong></div>
+      <div><span>年終計算</span><strong id="detail-year-formula">$0 × 1.5</strong></div>
+      <div><span>考績計算</span><strong id="detail-perf-formula">$0 × 1.0</strong></div>
+    </div>
+    <p class="formula-note">試算公式：月支合計 × 1.5 ＋ 月支合計 × 考績月數。實際核發金額仍以正式規定及核定結果為準。</p>
+  </details>
+  <div class="actions">
+    <button class="action" onclick="resetForm()">重設條件</button>
+    <button class="action" onclick="shareResult()">分享</button>
+    <button class="action primary" onclick="copyResult()">複製結果</button>
+  </div>
+</footer>
+</div>
+
+<script>
+const ranksDB = {
             '31': { name: '上校', pro: 34400, sup: 13510, hasLeader: true, levels: [41900, 43440, 44970, 46500, 48030, 49560, 51100, 52630, 54160, 55690, 57220, 58760] },
             '32': { name: '中校', pro: 28980, sup: 8880, hasLeader: true, levels: [37310, 38460, 39610, 40760, 41900, 43050, 44200, 45350, 46500, 47650, 48800, 49950] },
             '33': { name: '少校', pro: 24940, sup: 5930, hasLeader: true, levels: [32710, 33860, 35010, 36160, 37310, 38460, 39610, 40760, 41900, 43050, 44200, 45350] },
@@ -250,216 +251,196 @@
             '73': { name: '二兵', pro: 16280, sup: 0, hasLeader: false, levels: [10870] }
         };
 
-        let state = {
-            mode: 'preset',
-            rank: '31',
-            isLeader: true,
-            levelIndex: 0,
-            perf: 1.0,
-            custom: { base: '', pro: '', sup: '' }
-        };
+let state={mode:'preset',rank:'31',isLeader:true,levelIndex:0,perf:1.0};
 
-        function init() {
-            handleRankChange(false);
-            calculate();
-        }
+function init(){handleRankChange(false);calculate();}
+function setMode(mode){
+  state.mode=mode;
+  document.getElementById('mode-preset').classList.toggle('hidden',mode!=='preset');
+  document.getElementById('mode-custom').classList.toggle('hidden',mode!=='custom');
+  document.getElementById('tab-preset').setAttribute('aria-selected',String(mode==='preset'));
+  document.getElementById('tab-custom').setAttribute('aria-selected',String(mode==='custom'));
+  updatePerfUI();calculate();
+}
+function handleRankChange(resetLevel=true){
+  state.rank=document.getElementById('rank-select').value;
+  const info=ranksDB[state.rank];
+  if(resetLevel){state.levelIndex=0;state.perf=1.0;}
+  document.getElementById('leader-toggle-container').classList.toggle('hidden',!info.hasLeader);
+  setLeader(info.hasLeader?true:false,false);
+  renderLevelList(info);updatePerfUI();calculate();
+}
+function setLeader(value,triggerCalc=true){
+  state.isLeader=value;
+  document.getElementById('btn-leader-true').classList.toggle('active',value);
+  document.getElementById('btn-leader-false').classList.toggle('active',!value);
+  if(triggerCalc)calculate();
+}
+function renderLevelList(info){
+  const list=document.getElementById('level-list');
+  document.getElementById('level-count-badge').textContent=`共 ${info.levels.length} 級`;
+  const search=(document.getElementById('level-search')?.value||'').trim().replace(/[,$\s]/g,'').toLowerCase();
+  list.innerHTML='';
+  const excludeMax=['72','73'].includes(state.rank);
+  const visible=info.levels.map((amount,index)=>({amount,index})).filter(item=>{
+    if(!search)return true;
+    const level=`第${item.index+1}級`;
+    return level.includes(search)||String(item.index+1).includes(search)||String(item.amount).includes(search);
+  });
+  document.getElementById('level-visible-count').textContent=search?`符合 ${visible.length} 筆`:'顯示全部';
+  document.getElementById('level-empty').classList.toggle('hidden',visible.length!==0);
+  visible.forEach(({amount,index})=>{
+    const isMax=index===info.levels.length-1;
+    const button=document.createElement('button');
+    button.type='button';button.className='level-option'+(state.levelIndex===index?' selected':'');
+    button.setAttribute('aria-pressed',String(state.levelIndex===index));
+    const label=document.createElement('span');label.textContent=`第 ${index+1} 級`;
+    if(isMax&&!excludeMax){const tag=document.createElement('span');tag.className='tag';tag.textContent='滿級數';label.append(' ',tag);}
+    const value=document.createElement('span');value.className='amount';value.textContent='$'+amount.toLocaleString('zh-TW');
+    button.append(label,value);
+    button.onclick=()=>{
+      state.levelIndex=index;
+      if(isMax&&!excludeMax)state.perf=2.0;
+      else if(state.perf===2.0)state.perf=1.0;
+      renderLevelList(info);updatePerfUI();calculate();
+    };
+    list.appendChild(button);
+  });
+}
+function selectEdgeLevel(edge){
+  const info=ranksDB[state.rank];
+  state.levelIndex=edge==='last'?info.levels.length-1:0;
+  const isMax=state.levelIndex===info.levels.length-1&&!['72','73'].includes(state.rank);
+  if(isMax)state.perf=2.0;
+  else if(state.perf===2.0)state.perf=1.0;
+  renderLevelList(info);updatePerfUI();calculate();
+}
+function setPerf(value){state.perf=value;updatePerfUI();calculate();}
+function updatePerfUI(){
+  const container=document.getElementById('perf-buttons-container');
+  const info=ranksDB[state.rank];
+  const isMax=state.levelIndex===info.levels.length-1;
+  const excludeMax=['72','73'].includes(state.rank);
+  const show20=state.mode==='preset'&&isMax&&!excludeMax;
+  const options=show20?[{v:2,label:'滿級數',month:'2.0 個月',gold:true},{v:.5,label:'乙上',month:'0.5 個月'}]:[{v:1,label:'甲等',month:'1.0 個月'},{v:.5,label:'乙上',month:'0.5 個月'}];
+  container.innerHTML='';
+  options.forEach(option=>{
+    const button=document.createElement('button');button.type='button';
+    button.className='perf-option'+(option.gold?' gold':'')+(state.perf===option.v?' active':'');
+    button.setAttribute('aria-pressed',String(state.perf===option.v));
+    const title=document.createElement('strong');title.textContent=option.label;
+    const month=document.createElement('span');month.textContent=option.month;
+    button.append(title,month);button.onclick=()=>setPerf(option.v);container.appendChild(button);
+  });
+}
+function calculate(){
+  let base=0,pro=0,sup=0;
+  const info=ranksDB[state.rank];
+  if(state.mode==='preset'){
+    base=info.levels[state.levelIndex]||0;pro=info.pro||0;sup=state.isLeader&&info.hasLeader?info.sup:0;
+    document.getElementById('calc-detail-text').textContent='本俸＋專業加給＋主管職務加給';
+  }else{
+    base=Math.max(0,Number(document.getElementById('input-base').value)||0);
+    pro=Math.max(0,Number(document.getElementById('input-pro').value)||0);
+    sup=Math.max(0,Number(document.getElementById('input-sup').value)||0);
+    document.getElementById('calc-detail-text').textContent='自訂薪資合計';
+  }
+  const monthly=base+pro+sup;
+  const yearBonus=Math.round(monthly*1.5);
+  const perfBonus=Math.round(monthly*state.perf);
+  const total=yearBonus+perfBonus;
+  document.getElementById('res-monthly').textContent=monthly.toLocaleString('zh-TW');
+  document.getElementById('res-total').textContent=total.toLocaleString('zh-TW');
+  document.getElementById('res-year').textContent='$'+yearBonus.toLocaleString('zh-TW');
+  document.getElementById('res-perf').textContent='$'+perfBonus.toLocaleString('zh-TW');
+  document.getElementById('label-perf').textContent=`考績（${state.perf.toFixed(1)}）`;
+  document.getElementById('detail-base').textContent='$'+base.toLocaleString('zh-TW');
+  document.getElementById('detail-pro').textContent='$'+pro.toLocaleString('zh-TW');
+  document.getElementById('detail-sup').textContent='$'+sup.toLocaleString('zh-TW');
+  document.getElementById('detail-year-formula').textContent=`$${monthly.toLocaleString('zh-TW')} × 1.5`;
+  document.getElementById('detail-perf-formula').textContent=`$${monthly.toLocaleString('zh-TW')} × ${state.perf.toFixed(1)}`;
+  return {base,pro,sup,monthly,yearBonus,perfBonus,total};
+}
+function resetForm(){
+  document.getElementById('rank-select').value='31';
+  document.getElementById('level-search').value='';
+  ['input-base','input-pro','input-sup'].forEach(id=>document.getElementById(id).value='');
+  state={mode:'preset',rank:'31',isLeader:true,levelIndex:0,perf:1.0};
+  setMode('preset');handleRankChange(false);
+}
+function copyResult(){
+  const r=calculate();
+  const mode=state.mode==='preset'?'對照表查詢':'自訂薪資';
+  const rank=state.mode==='preset'?ranksDB[state.rank].name:'自訂';
+  const text=`114年國軍年終獎金試算\n試算方式：${mode}\n階級：${rank}\n月支合計：$${r.monthly.toLocaleString('zh-TW')}\n年終獎金（1.5）：$${r.yearBonus.toLocaleString('zh-TW')}\n考績獎金（${state.perf.toFixed(1)}）：$${r.perfBonus.toLocaleString('zh-TW')}\n預估總額：$${r.total.toLocaleString('zh-TW')}\n※ 本結果為試算，實際金額依正式核定為準。`;
+  const fallback=()=>{const area=document.createElement('textarea');area.value=text;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();alert('試算結果已複製');};
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(()=>alert('試算結果已複製')).catch(fallback);}else fallback();
+}
 
-        function setMode(mode) {
-            state.mode = mode;
-            const tabPreset = document.getElementById('tab-preset');
-            const tabCustom = document.getElementById('tab-custom');
-            const viewPreset = document.getElementById('mode-preset');
-            const viewCustom = document.getElementById('mode-custom');
+async function shareResult(){
+  const r=calculate();
+  const rank=state.mode==='preset'?ranksDB[state.rank].name:'自訂薪資';
+  const text=`114年國軍年終獎金試算｜${rank}\n月支合計：$${r.monthly.toLocaleString('zh-TW')}\n年終獎金：$${r.yearBonus.toLocaleString('zh-TW')}\n考績獎金：$${r.perfBonus.toLocaleString('zh-TW')}\n預估總額：$${r.total.toLocaleString('zh-TW')}\n※ 實際金額依正式核定為準。`;
+  if(navigator.share){
+    try{await navigator.share({title:'114年國軍年終獎金試算',text});}
+    catch(error){if(error.name!=='AbortError')copyResult();}
+  }else{copyResult();}
+}
 
-            if (mode === 'preset') {
-                tabPreset.className = "flex-1 py-4 text-sm font-bold text-blue-700 bg-white shadow-sm transition-all flex justify-center items-center gap-2 border-b-2 border-blue-600";
-                tabCustom.className = "flex-1 py-4 text-sm font-bold text-slate-500 hover:bg-slate-100 transition-all flex justify-center items-center gap-2 border-b-2 border-transparent";
-                viewPreset.classList.remove('hidden');
-                viewCustom.classList.add('hidden');
-            } else {
-                tabCustom.className = "flex-1 py-4 text-sm font-bold text-blue-700 bg-white shadow-sm transition-all flex justify-center items-center gap-2 border-b-2 border-blue-600";
-                tabPreset.className = "flex-1 py-4 text-sm font-bold text-slate-500 hover:bg-slate-100 transition-all flex justify-center items-center gap-2 border-b-2 border-transparent";
-                viewCustom.classList.remove('hidden');
-                viewPreset.classList.add('hidden');
-            }
-            updatePerfUI();
-            calculate();
-        }
+const HISTORY_KEY='mil_bonus_history_v1';
+const COMPARE_KEY='mil_bonus_compare_v1';
+function getSnapshot(name=''){
+  const r=calculate();
+  const rank=state.mode==='preset'?ranksDB[state.rank].name:'自訂薪資';
+  const level=state.mode==='preset'?`第 ${state.levelIndex+1} 級`:'';
+  return {id:Date.now()+Math.random(),name:name||rank,rank,level,mode:state.mode,leader:state.isLeader,perf:state.perf,base:r.base,pro:r.pro,sup:r.sup,monthly:r.monthly,yearBonus:r.yearBonus,perfBonus:r.perfBonus,total:r.total,createdAt:new Date().toLocaleString('zh-TW')};
+}
+function money(n){return '$'+Number(n||0).toLocaleString('zh-TW');}
+function toggleTheme(){
+  const dark=document.body.classList.toggle('dark');
+  localStorage.setItem('mil_bonus_theme',dark?'dark':'light');
+  document.getElementById('theme-toggle').textContent=dark?'☀️ 淺色模式':'🌙 深色模式';
+}
+function loadTheme(){
+  const dark=localStorage.getItem('mil_bonus_theme')==='dark';
+  document.body.classList.toggle('dark',dark);
+  document.getElementById('theme-toggle').textContent=dark?'☀️ 淺色模式':'🌙 深色模式';
+}
+function readStore(key){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []}}
+function saveStore(key,data){try{localStorage.setItem(key,JSON.stringify(data));return true}catch(e){alert('儲存失敗，請確認瀏覽器儲存空間或隱私設定。');return false}}
+function saveHistory(){
+  const rows=readStore(HISTORY_KEY);rows.unshift(getSnapshot());rows.splice(50);
+  if(saveStore(HISTORY_KEY,rows)){renderHistory();alert('已保存這筆試算紀錄。');}
+}
+function addComparison(){
+  const name=document.getElementById('compare-name').value.trim();
+  const rows=readStore(COMPARE_KEY);rows.push(getSnapshot(name));rows.splice(20);
+  if(saveStore(COMPARE_KEY,rows)){document.getElementById('compare-name').value='';renderComparison();}
+}
+function removeSaved(key,id){saveStore(key,readStore(key).filter(x=>x.id!==id));key===COMPARE_KEY?renderComparison():renderHistory();}
+function renderComparison(){
+  const rows=readStore(COMPARE_KEY),el=document.getElementById('compare-list');
+  if(!rows.length){el.innerHTML='<p class="empty-note">尚未加入比較對象。</p>';return;}
+  el.innerHTML='<div class="compare-table-wrap"><table class="compare-table"><thead><tr><th>對象</th><th>階級／俸級</th><th>月支</th><th>年終</th><th>考績</th><th>預估總額</th><th></th></tr></thead><tbody>'+rows.map(x=>`<tr><td>${escapeHTML(x.name)}</td><td>${escapeHTML(x.rank)} ${escapeHTML(x.level||'')}</td><td>${money(x.monthly)}</td><td>${money(x.yearBonus)}</td><td>${money(x.perfBonus)}</td><td>${money(x.total)}</td><td><button class="text-btn" onclick="removeSaved(COMPARE_KEY,${JSON.stringify(x.id)})">移除</button></td></tr>`).join('')+'</tbody></table></div>';
+}
+function renderHistory(){
+  const rows=readStore(HISTORY_KEY),el=document.getElementById('history-list');
+  if(!rows.length){el.innerHTML='<p class="empty-note">尚無保存紀錄。</p>';return;}
+  el.innerHTML=rows.map(x=>`<div class="saved-item"><div><strong>${escapeHTML(x.name)}｜${money(x.total)}</strong><small>${escapeHTML(x.createdAt)} · 月支 ${money(x.monthly)}</small></div><div class="item-actions"><button onclick="restoreHistory(${JSON.stringify(x.id)})">載入</button><button onclick="removeSaved(HISTORY_KEY,${JSON.stringify(x.id)})">刪除</button></div></div>`).join('');
+}
+function escapeHTML(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function restoreHistory(id){
+  const x=readStore(HISTORY_KEY).find(v=>v.id===id);if(!x)return;
+  if(x.mode==='custom'){setMode('custom');document.getElementById('input-base').value=x.base;document.getElementById('input-pro').value=x.pro;document.getElementById('input-sup').value=x.sup;}
+  else{setMode('preset');document.getElementById('rank-select').value=Object.keys(ranksDB).find(k=>ranksDB[k].name===x.rank)||'31';handleRankChange(false);state.levelIndex=Math.max(0,ranksDB[state.rank].levels.indexOf(x.base));renderLevelList(ranksDB[state.rank]);}
+  state.perf=x.perf;updatePerfUI();calculate();window.scrollTo({top:0,behavior:'smooth'});
+}
+function clearHistory(){if(confirm('確定清除所有歷史試算紀錄？')){localStorage.removeItem(HISTORY_KEY);renderHistory();}}
+function exportPDF(){window.print();}
 
-        function handleRankChange(resetLevel = true) {
-            const rankSelect = document.getElementById('rank-select');
-            state.rank = rankSelect.value;
-            const info = ranksDB[state.rank];
-
-            const leaderContainer = document.getElementById('leader-toggle-container');
-            if (info.hasLeader) {
-                leaderContainer.classList.remove('hidden');
-                setLeader(true, false);
-            } else {
-                leaderContainer.classList.add('hidden');
-                setLeader(false, false);
-            }
-
-            if (resetLevel) {
-                state.levelIndex = 0;
-                state.perf = 1.0; 
-            }
-            
-            renderLevelList(info);
-            updatePerfUI();
-            calculate();
-        }
-
-        function setLeader(isLeader, triggerCalc = true) {
-            state.isLeader = isLeader;
-            const btnTrue = document.getElementById('btn-leader-true');
-            const btnFalse = document.getElementById('btn-leader-false');
-
-            if (isLeader) {
-                btnTrue.className = "py-2.5 px-4 rounded-lg text-sm font-bold transition-all shadow-sm bg-white text-blue-700 border border-blue-100";
-                btnFalse.className = "py-2.5 px-4 rounded-lg text-sm font-bold transition-all text-slate-400 hover:text-slate-600";
-            } else {
-                btnFalse.className = "py-2.5 px-4 rounded-lg text-sm font-bold transition-all shadow-sm bg-slate-700 text-white border border-slate-600";
-                btnTrue.className = "py-2.5 px-4 rounded-lg text-sm font-bold transition-all text-slate-400 hover:text-slate-600";
-            }
-            if (triggerCalc) calculate();
-        }
-
-        function renderLevelList(info) {
-            const listContainer = document.getElementById('level-list');
-            const badge = document.getElementById('level-count-badge');
-            
-            badge.innerText = `共 ${info.levels.length} 級`;
-            listContainer.innerHTML = '';
-            
-            const excludeMaxBonus = ['72', '73'].includes(state.rank);
-
-            info.levels.forEach((amount, index) => {
-                const btn = document.createElement('button');
-                const isMax = index === info.levels.length - 1;
-                const isSelected = state.levelIndex === index;
-
-                btn.onclick = () => { 
-                    state.levelIndex = index; 
-                    
-                    // 點擊滿級數時，自動切換到 2.0 (如果不排除)
-                    if (isMax && !excludeMaxBonus) {
-                        state.perf = 2.0;
-                    } else if (state.perf === 2.0) {
-                        // 如果從滿級數切換回來，重置為 1.0
-                        state.perf = 1.0;
-                    }
-
-                    renderLevelList(info); 
-                    updatePerfUI();
-                    calculate(); 
-                };
-                
-                let baseClass = "w-full px-4 py-3.5 flex justify-between items-center text-sm transition-all border-b border-slate-50 ";
-                if (isSelected) {
-                    baseClass += "bg-blue-50 text-blue-700 font-bold border-l-4 border-l-blue-600";
-                } else {
-                    baseClass += "text-slate-600 hover:bg-slate-50";
-                }
-                
-                btn.className = baseClass;
-                
-                let html = `<div class="flex items-center gap-2"><span>第 ${index + 1} 級</span>`;
-                if (isMax && !excludeMaxBonus) {
-                    html += `<span class="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold">滿級數</span>`;
-                }
-                html += `</div><span class="font-mono">$${amount.toLocaleString()}</span>`;
-                
-                btn.innerHTML = html;
-                listContainer.appendChild(btn);
-            });
-        }
-
-        function setPerf(val) {
-            state.perf = val;
-            updatePerfUI();
-            calculate();
-        }
-
-        function updatePerfUI() {
-            const container = document.getElementById('perf-buttons-container');
-            const info = ranksDB[state.rank];
-            const isMax = state.levelIndex === info.levels.length - 1;
-            const excludeMaxBonus = ['72', '73'].includes(state.rank);
-            const isCustom = state.mode === 'custom';
-
-            let show20 = (isMax && !excludeMaxBonus && !isCustom);
-            
-            const activeClass = "p-2.5 rounded-xl border border-blue-200 bg-blue-50 text-blue-800 shadow-sm transition-all flex flex-col items-center justify-center ring-1 ring-blue-200";
-            const inactiveClass = "p-2.5 rounded-xl border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 transition-all flex flex-col items-center justify-center";
-            const activeAmberClass = "p-2.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-800 shadow-sm transition-all flex flex-col items-center justify-center ring-1 ring-amber-200";
-
-            let html = '';
-            
-            container.className = "grid grid-cols-2 gap-3"; 
-
-            if (show20) {
-                // 滿級數模式：顯示「滿級數 (2.0)」與「乙上 (0.5)」
-                html += `
-                <button onclick="setPerf(2.0)" class="${state.perf === 2.0 ? activeAmberClass : inactiveClass}">
-                    <span class="font-bold text-sm">滿級數</span>
-                    <span class="text-[10px] opacity-70">2.0 個月</span>
-                </button>
-                <button onclick="setPerf(0.5)" class="${state.perf === 0.5 ? activeClass : inactiveClass}">
-                    <span class="font-bold text-sm">乙上</span>
-                    <span class="text-[10px] opacity-70">0.5 個月</span>
-                </button>
-                `;
-            } else {
-                // 一般模式：顯示「甲等 (1.0)」與「乙上 (0.5)」
-                html += `
-                <button onclick="setPerf(1.0)" class="${state.perf === 1.0 ? activeClass : inactiveClass}">
-                    <span class="font-bold text-sm">甲等</span>
-                    <span class="text-[10px] opacity-70">1.0 個月</span>
-                </button>
-                <button onclick="setPerf(0.5)" class="${state.perf === 0.5 ? activeClass : inactiveClass}">
-                    <span class="font-bold text-sm">乙上</span>
-                    <span class="text-[10px] opacity-70">0.5 個月</span>
-                </button>
-                `;
-            }
-            
-            container.innerHTML = html;
-        }
-
-        function calculate() {
-            let base = 0, pro = 0, sup = 0;
-            let multiplier = state.perf;
-            const info = ranksDB[state.rank];
-
-            if (state.mode === 'preset') {
-                base = info.levels[state.levelIndex];
-                pro = info.pro;
-                sup = (state.isLeader && info.hasLeader) ? info.sup : 0;
-            } else {
-                base = parseFloat(document.getElementById('input-base').value) || 0;
-                pro = parseFloat(document.getElementById('input-pro').value) || 0;
-                sup = parseFloat(document.getElementById('input-sup').value) || 0;
-            }
-
-            const monthly = base + pro + sup;
-            const yearBonus = Math.round(monthly * 1.5);
-            const perfBonus = Math.round(monthly * multiplier);
-            const total = yearBonus + perfBonus;
-
-            document.getElementById('res-monthly').innerText = monthly.toLocaleString();
-            document.getElementById('res-total').innerText = total.toLocaleString();
-            document.getElementById('res-year').innerText = `$${yearBonus.toLocaleString()}`;
-            document.getElementById('res-perf').innerText = `$${perfBonus.toLocaleString()}`;
-            
-            let perfText = `考績 (${multiplier})`;
-            if (multiplier === 2.0) perfText = "考績 (2.0)";
-            document.getElementById('label-perf').innerText = perfText;
-        }
-
-        init();
-    </script>
+loadTheme();renderHistory();renderComparison();
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
+init();
+</script>
 </body>
 </html>
-
-
